@@ -25,19 +25,22 @@ do
     # Add winner to teams if not already in table, get new team_id
     if [[ -z $WINNER_ID ]]
     then
-      INSERT_WINNER_RESULT=$($PSQL "INSERT INTO teams(name) VALUES ('$WINNER')")
+      IRW=$($PSQL "INSERT INTO teams(name) VALUES ('$WINNER')")
       WINNER_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$WINNER'")
+      echo Insert into teams, $WINNER
     fi
 
     # Add opponent to teams if not already in table, get new team_id
     if [[ -z $OPPONENT_ID ]]
     then
-      INSERT_OPPONENT_RESULT=$($PSQL "INSERT INTO teams(name) VALUES ('$OPPONENT')")
+      IRO=$($PSQL "INSERT INTO teams(name) VALUES ('$OPPONENT')")
       OPPONENT_ID=$($PSQL "SELECT team_id FROM teams WHERE name='$OPPONENT'")
+      echo Insert into teams, $OPPONENT
     fi
 
     # Add all game info to game table
-    INSERT_GAME_RESULT=$($PSQL "INSERT INTO games(year, round, winner_id, opponent_id, winner_goals, opponent_goals)
+    IRG=$($PSQL "INSERT INTO games(year, round, winner_id, opponent_id, winner_goals, opponent_goals)
     VALUES ('$YEAR', '$ROUND', '$WINNER_ID', '$OPPONENT_ID', '$WINNER_GOALS', '$OPPONENT_GOALS')")
+    echo Insert into games, $YEAR $ROUND
   fi
 done
